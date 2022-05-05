@@ -36,6 +36,8 @@ func New(s3Conf *config.S3Config, timeout time.Duration, options ...func(*aws.Co
 	const op errors.Op = "s3.New"
 
 	awsConfig := defaults.Config()
+	//unset cred providers so NewSession will use default chain if UseDefaultConfiguration is true
+	awsConfig.Credentials = nil
 	awsConfig.Region = aws.String(s3Conf.Region)
 	for _, o := range options {
 		o(awsConfig)
